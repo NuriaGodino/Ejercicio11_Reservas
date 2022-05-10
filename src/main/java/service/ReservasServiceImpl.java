@@ -1,8 +1,7 @@
 package service;
 
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,6 @@ public class ReservasServiceImpl implements ReservasService{
 		this.reservasDao = reservasDao;
 		this.template = template;
 	}
-	
-//	@Override
-//	public void altaReserva(int idReserva, String nombre, String dni, int hotel, int vuelo) {
-//		Reserva reserva = new Reserva(idReserva, nombre, dni, hotel, vuelo);
-//		template.postForLocation(urlBase, reserva);
-//		reservasDao.save(reserva);
-//	}
 
 	@Override
 	public List<Reserva> todasReservas() {
@@ -39,11 +31,11 @@ public class ReservasServiceImpl implements ReservasService{
 	}
 
 	@Override
-	public void altaReserva(Reserva reserva) {
-		Vuelo[] vuelos = template.getForObject(urlBase, Vuelo[].class);
+	public void altaReserva(Reserva reserva, int plazas) {
+		//Vuelo[] vuelos = template.getForObject(urlBase, Vuelo[].class);
 		reservasDao.save(reserva);
-		List<Vuelo> vuelo = Arrays.stream(vuelos).filter(x -> x.getIdVuelo() == reserva.getVuelo()).collect(Collectors.toList());
-		template.put(urlBase+"/Vuelo/{idVuelo}/{plazas}", vuelo.get(0).getIdVuelo(), vuelo.get(0).getPlazas()-1);
+		//List<Vuelo> vuelo = Arrays.stream(vuelos).filter(x -> x.getIdVuelo() == reserva.getVuelo()).collect(Collectors.toList());
+		template.put(urlBase+"/Vuelo/{idVuelo}/{plazas}",Vuelo[].class ,reserva.getVuelo(), plazas);
 		
 	}
 	

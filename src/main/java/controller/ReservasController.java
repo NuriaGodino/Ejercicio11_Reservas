@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,8 @@ public class ReservasController {
 		return service.todasReservas();
 	}
 	
-	@PostMapping(value = "Reserva", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void altaReserva(@RequestBody Reserva reserva) {
-		service.altaReserva(reserva);
+	@PostMapping(value = "Reserva/{plazas}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void altaReserva(@RequestBody Reserva reserva, @PathVariable("plazas") int plazas) {
+		service.altaReserva(reserva, plazas);
 	}
 }
